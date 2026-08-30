@@ -42,70 +42,92 @@
 @media (min-width:600px){.cab__horario{display:block}}
 .cab__horario b{color:var(--sellado);font-weight:600}
 
-/* ---------- Hero: hueco de dos hojas, 5/7 ---------- */
-.hero{background:var(--vidrio);color:var(--luz);position:relative;overflow:hidden}
-.hero__rejilla{display:grid;gap:0}
-@media (min-width:960px){
-  .hero__rejilla{grid-template-columns:5fr 7fr;align-items:stretch;min-height:min(84vh,780px)}
+/* ---------- Hero: EL HUECO ----------
+   Un hueco de obra subdividido en hojas por montantes reales.
+   La foto está detrás de todo: se mira a través.                */
+.hero{
+  position:relative;overflow:hidden;background:var(--vidrio);color:var(--luz);
+  min-height:calc(100svh - var(--cab-h,64px));
+  display:grid;grid-template-rows:1fr auto;
 }
-.hero__hoja{
-  padding:var(--e5) var(--borde-pagina) var(--e4);
-  display:flex;flex-direction:column;justify-content:center;gap:var(--e3);
+.hero__vidrio{position:absolute;inset:0;margin:0;overflow:hidden}
+.hero__vidrio picture{display:contents}
+.hero__vidrio img{width:100%;height:100%;object-fit:cover;object-position:60% 45%}
+.js .hero__vidrio img{
+  transform:scale(1.06);opacity:0;
+  transition:transform 900ms var(--ease-hueco),opacity 500ms linear;
 }
-@media (min-width:960px){
-  .hero__hoja{padding:var(--e6) var(--e4) var(--e6) var(--borde-pagina)}
+.js .cargada .hero__vidrio img{transform:none;opacity:1}
+
+/* Velo: sin él el texto no se lee sobre el vidrio */
+.hero__velo{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to top,rgba(22,28,29,.92) 0%,rgba(22,28,29,.55) 34%,rgba(22,28,29,.10) 62%);
 }
-.hero__kicker{display:flex;align-items:center;gap:var(--e2)}
-.hero__kicker .cota__texto{color:var(--anodizado-claro)}
-.hero__titulo{font-family:var(--display);font-size:var(--t-display);
-  font-weight:600;font-stretch:118%;line-height:.98;letter-spacing:-.03em}
-.hero__entradilla{color:var(--anodizado-claro);max-width:44ch;font-size:var(--t-lead)}
-.hero__acciones{display:flex;flex-wrap:wrap;gap:var(--e2);margin-top:var(--e1)}
+@media (min-width:900px){
+  .hero__velo{
+    background:linear-gradient(to right,
+      rgba(22,28,29,.94) 0%,rgba(22,28,29,.90) 36%,
+      rgba(22,28,29,.34) 40%,rgba(22,28,29,.10) 62%,rgba(22,28,29,.30) 100%);
+  }
+}
+
+.hero__hojas{position:relative;z-index:4;display:grid;align-items:end;min-height:0}
+@media (min-width:900px){
+  .hero__hojas{grid-template-columns:44% 30% 26%}
+}
+.hero__hoja{padding:var(--e4) var(--borde-pagina) var(--e4);display:flex;
+  flex-direction:column;justify-content:flex-end;gap:var(--e3)}
+@media (min-width:900px){
+  .hero__hoja{padding:var(--e5) var(--e4) var(--e5) var(--borde-pagina)}
+  .hero__hoja + .hero__hoja{padding-inline:var(--e4)}
+  .hero__hoja:last-child{padding-inline:var(--e4) var(--borde-pagina)}
+}
+
+.hero__titulo{
+  font-family:var(--display);font-size:var(--t-display);
+  font-weight:600;font-stretch:106%;line-height:.94;letter-spacing:-.035em;
+  text-wrap:balance;
+}
+/* Cada línea entra por barrido: el gesto de extrusión */
+.js .hero__linea{display:block;overflow:hidden}
+.js .hero__linea > span{display:block;transform:translateY(105%)}
+.js .cargada .hero__linea > span{
+  transition:transform 700ms var(--ease-hueco);transform:none;
+}
+.js .cargada .hero__linea:nth-child(2) > span{transition-delay:80ms}
+
+.hero__entradilla{color:var(--anodizado-claro);max-width:34ch;font-size:1.0625rem}
+.hero__acciones{display:flex;flex-wrap:wrap;gap:var(--e2)}
 .hero__acciones .btn{flex:1 1 auto;justify-content:center}
 @media (min-width:600px){.hero__acciones .btn{flex:0 0 auto}}
 .hero__estrellas{display:flex;align-items:center;gap:var(--e1);font-size:var(--t-small);
   color:var(--anodizado-claro)}
 .hero__estrellas b{color:var(--ambar);font-family:var(--dato);font-weight:600}
 
-.hero__vano{position:relative;min-height:78vw}
-@media (min-width:960px){.hero__vano{min-height:0}}
-.hero__vano .hueco{position:absolute;inset:0;border-radius:0}
-/* La foto sangra por el borde derecho y el superior */
-@media (min-width:960px){
-  .hero__vano{margin-block-start:calc(var(--e4) * -1)}
+/* La marca de despiece, anotada sobre la hoja que le corresponde */
+.hero__marca{display:none}
+@media (min-width:900px){
+  .hero__marca{display:grid;gap:2px;align-self:end;justify-self:start}
 }
-/* Ficha de obra flotante sobre el hueco */
-.hero__ficha{
-  position:absolute;left:var(--e2);right:var(--e2);bottom:var(--e2);z-index:2;
-  max-width:max-content;
-  background:rgba(22,28,29,.86);backdrop-filter:blur(6px);
-  padding:var(--e2) var(--e3);border-radius:2px;
-  box-shadow:inset 0 0 0 1px rgba(237,239,236,.18);
-}
-.hero__ficha dl{display:grid;gap:2px;margin:0}
-.hero__ficha dt{font-family:var(--dato);font-size:.625rem;letter-spacing:.16em;
+.hero__marca dt{font-family:var(--dato);font-size:.625rem;letter-spacing:.16em;
   text-transform:uppercase;color:var(--anodizado)}
-.hero__ficha dd{margin:0;font-family:var(--dato);font-size:.75rem;
-  color:var(--luz);letter-spacing:.04em;overflow-wrap:anywhere}
-@media (min-width:600px){
-  .hero__ficha{left:var(--e3);right:auto;bottom:var(--e3)}
-  .hero__ficha dd{font-size:.8125rem}
-}
+.hero__marca dd{margin:0;font-family:var(--dato);font-size:.75rem;color:var(--luz);
+  letter-spacing:.04em}
 
-/* Banda de datos al pie del hero */
-.hero__banda{border-top:0;background:var(--junta)}
-.hero__banda ul{
-  display:grid;grid-template-columns:repeat(2,1fr);
-  gap:1px;background:var(--vidrio-alto);
-}
+/* Los montantes dividen el hueco. Solo cuando hay ancho para tres hojas. */
+.montante-hoja{display:none}
+@media (min-width:900px){.montante-hoja{display:block}}
+
+/* Banda de datos: el travesaño inferior del hueco */
+.hero__banda{position:relative;z-index:4;background:var(--junta)}
+.hero__banda ul{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--vidrio-alto)}
 @media (min-width:760px){.hero__banda ul{grid-template-columns:repeat(5,1fr)}}
-.hero__banda li{
-  background:var(--junta);padding:var(--e3) var(--e2);
-  display:flex;flex-direction:column;gap:2px;align-items:center;text-align:center;
-}
-.hero__banda b{font-family:var(--display);font-stretch:118%;font-weight:600;
-  font-size:1.375rem;color:var(--luz);font-variant-numeric:tabular-nums}
-.hero__banda span{font-family:var(--dato);font-size:.625rem;letter-spacing:.14em;
+.hero__banda li{background:var(--junta);padding:var(--e2) var(--e2);
+  display:flex;flex-direction:column;gap:1px;align-items:center;text-align:center}
+.hero__banda b{font-family:var(--display);font-stretch:116%;font-weight:600;
+  font-size:1.25rem;color:var(--luz);font-variant-numeric:tabular-nums;line-height:1.1}
+.hero__banda span{font-family:var(--dato);font-size:.5625rem;letter-spacing:.14em;
   text-transform:uppercase;color:var(--anodizado)}
 
 /* ---------- Triaje: hojas practicables ---------- */
@@ -129,42 +151,82 @@
   background:var(--ambar);box-shadow:inset 0 0 0 2px var(--ambar-hover);
 }
 
-/* ---------- Soluciones ---------- */
-.sol__rejilla{
-  display:grid;gap:var(--e3);margin-top:var(--e4);
-  grid-template-columns:1fr;
+/* ---------- Soluciones: filas alternas a sangre ----------
+   Cada servicio es una hoja del hueco: la foto sangra hasta el borde
+   de la página y el texto ocupa la columna contraria. Altura de fila
+   idéntica, así ninguna imagen queda desalineada con la de al lado.  */
+.sol{padding-block:var(--e5) 0}
+@media (min-width:900px){.sol{padding-block:var(--e6) 0}}
+.sol .cabecera-seccion{margin-bottom:var(--e5)}
+
+.sol__fila{
+  display:grid;position:relative;
+  border-top:3px solid transparent;
+  background:linear-gradient(to bottom,var(--anodizado) 0 2px,var(--vidrio) 2px 3px) top/100% 3px no-repeat;
 }
-@media (min-width:640px){.sol__rejilla{grid-template-columns:repeat(2,1fr)}}
-@media (min-width:1080px){
-  .sol__rejilla{grid-template-columns:repeat(6,1fr)}
-  /* 4/8 y 8/4 alternos: nunca dos hojas iguales */
-  .sol__pieza:nth-child(1){grid-column:span 4}
-  .sol__pieza:nth-child(2){grid-column:span 2}
-  .sol__pieza:nth-child(3){grid-column:span 2}
-  .sol__pieza:nth-child(4){grid-column:span 4}
-  .sol__pieza:nth-child(5){grid-column:span 6}
+.sol__fila:last-of-type{
+  background:
+    linear-gradient(to bottom,var(--anodizado) 0 2px,var(--vidrio) 2px 3px) top/100% 3px no-repeat,
+    linear-gradient(to bottom,var(--anodizado) 0 2px,var(--vidrio) 2px 3px) bottom/100% 3px no-repeat;
 }
-.sol__pieza{display:flex;flex-direction:column;container-type:inline-size}
-.sol__pieza .hueco{aspect-ratio:3/2}
-@media (min-width:1080px){
-  /* Las hojas estrechas van verticales: así las dos de una fila miden casi lo mismo */
-  .sol__pieza:nth-child(2) .hueco,
-  .sol__pieza:nth-child(3) .hueco{aspect-ratio:4/5}
+@media (min-width:900px){
+  .sol__fila{grid-template-columns:minmax(0,7fr) minmax(0,5fr);align-items:stretch}
+  .sol__fila--inv{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+  .sol__fila--inv .sol__vano{order:2}
+  .sol__fila--inv .sol__texto{order:1}
 }
-.sol__pieza:nth-child(5) .hueco{aspect-ratio:2/1}
-.sol__cuerpo{padding-top:var(--e2);display:flex;flex-direction:column;gap:6px;flex:1}
-.sol__claim{color:var(--vidrio);font-size:var(--t-small)}
-.sol__pie{margin-top:auto;padding-top:var(--e2)}
-@container (min-width:520px){
-  .sol__cuerpo{padding-top:var(--e3)}
+
+.sol__vano{position:relative;overflow:hidden;margin:0;background:var(--vidrio);
+  aspect-ratio:16/10;--mx:0;--my:0}
+@media (min-width:900px){
+  /* La altura la marca la fila, no la foto: así ninguna se queda corta
+     cuando el texto de al lado es más largo. */
+  .sol__fila{min-height:clamp(420px,38vw,560px)}
+  .sol__vano{aspect-ratio:auto;height:auto;align-self:stretch}
+  .sol__foto{height:100%}
 }
-.sol__pieza a.enlace{align-self:flex-start}
+.sol__vano picture{display:contents}
+.sol__foto{
+  width:100%;height:100%;object-fit:cover;
+  transform:scale(1.06) translate3d(calc(var(--mx)*-8px),calc(var(--my)*-8px),0);
+  transition:transform var(--lenta) var(--ease-hueco);
+}
+/* Montante vertical entre la hoja de vidrio y la de contenido */
+@media (min-width:900px){
+  .sol__vano::after{
+    content:'';position:absolute;top:0;bottom:0;right:0;width:3px;
+    background:linear-gradient(to right,var(--anodizado) 0 2px,var(--vidrio) 2px 3px);
+  }
+  .sol__fila--inv .sol__vano::after{right:auto;left:0;
+    background:linear-gradient(to left,var(--anodizado) 0 2px,var(--vidrio) 2px 3px)}
+}
+
+.sol__texto{
+  padding:var(--e4) var(--borde-pagina);
+  display:flex;flex-direction:column;justify-content:center;gap:10px;
+  background:var(--luz-alta);
+}
+@media (min-width:900px){
+  .sol__texto{padding:var(--e5) clamp(32px,4vw,64px)}
+  .sol__fila:not(.sol__fila--inv) .sol__texto{padding-right:var(--borde-pagina)}
+  .sol__fila--inv .sol__texto{padding-left:var(--borde-pagina)}
+}
+.sol__texto h3{font-size:clamp(1.375rem,2vw,1.75rem);font-stretch:110%}
+.sol__claim{color:var(--vidrio);font-size:var(--t-lead)}
+.sol__texto p{max-width:46ch}
+.sol__subtipos{display:grid;gap:5px;margin-top:6px;font-size:var(--t-small)}
+.sol__subtipos li{padding-left:14px;position:relative}
+.sol__subtipos li::before{content:'';position:absolute;left:0;top:.62em;width:7px;height:2px;
+  background:var(--ambar)}
+.sol__texto .enlace{margin-top:6px}
 
 /* ---------- Obra realizada + filtro RAL ---------- */
 .obra{background:var(--luz-alta)}
 .obra__control{
   display:flex;flex-wrap:wrap;align-items:flex-end;gap:var(--e3);
   justify-content:space-between;margin-top:var(--e3);
+  position:sticky;top:var(--cab-h,64px);z-index:20;
+  background:var(--luz-alta);padding-block:var(--e2);
 }
 .ral{display:flex;flex-wrap:wrap;gap:var(--e2)}
 .ral__chip{
@@ -186,18 +248,15 @@
 .ral__chip[aria-pressed="true"] .ral__cod{color:var(--junta);font-weight:600}
 
 .obra__rejilla{
-  display:grid;gap:var(--e3);margin-top:var(--e4);
-  grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));
-  grid-auto-flow:dense;   /* las piezas anchas no pueden dejar huecos */
+  display:grid;gap:3px;margin-top:var(--e4);background:var(--anodizado-claro);
+  grid-template-columns:repeat(auto-fill,minmax(min(50%,220px),1fr));
 }
 .obra__pieza{display:flex;flex-direction:column;transition:opacity var(--base) var(--ease-hueco)}
 .obra__pieza[hidden]{display:none}
 .obra__pieza .hueco{aspect-ratio:4/5}
-.obra__pieza[data-formato="ancho"] .hueco{aspect-ratio:3/2}
-.obra__pieza[data-formato="ancho"]{grid-column:span 2}
-@media (max-width:640px){.obra__pieza[data-formato="ancho"]{grid-column:span 1}}
+.obra__pieza{background:var(--luz-alta)}
 .obra__ficha{
-  padding-top:var(--e2);display:grid;gap:3px;
+  padding:var(--e2);display:grid;gap:3px;
   font-family:var(--dato);font-size:.6875rem;letter-spacing:.08em;
   text-transform:uppercase;color:var(--vidrio);
 }
@@ -217,21 +276,30 @@
 }
 @media (min-width:700px){.proceso__rejilla{grid-template-columns:repeat(2,1fr)}}
 @media (min-width:1080px){.proceso__rejilla{grid-template-columns:repeat(4,1fr)}}
-.proceso__paso{background:var(--vidrio);padding:var(--e3);display:flex;
-  flex-direction:column;gap:var(--e1)}
-.proceso__num{font-family:var(--dato);font-size:var(--t-dato);letter-spacing:.16em;
-  color:var(--ambar);font-weight:600}
+.proceso__paso{background:var(--vidrio);padding:var(--e4) var(--e3);display:flex;
+  flex-direction:column;gap:6px}
+.proceso__num{
+  font-family:var(--display);font-stretch:112%;font-weight:600;
+  font-size:clamp(3.2rem,6vw,5rem);line-height:.82;letter-spacing:-.04em;
+  color:transparent;-webkit-text-stroke:1.5px var(--anodizado);
+  margin-bottom:var(--e2);
+}
+.proceso__paso:first-child .proceso__num{-webkit-text-stroke-color:var(--ambar)}
 .proceso__paso h3{color:var(--luz)}
 .proceso__paso p{color:var(--anodizado-claro);font-size:var(--t-small)}
 
 /* ---------- Opiniones ---------- */
-.op__cabeza{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--e3);
-  margin-top:var(--e2)}
-.op__nota{font-family:var(--display);font-stretch:120%;font-weight:600;
-  font-size:clamp(3rem,7vw,4.5rem);line-height:1;color:var(--ambar);
-  font-variant-numeric:tabular-nums}
-.op__meta{font-family:var(--dato);font-size:var(--t-dato);letter-spacing:.12em;
-  text-transform:uppercase;color:var(--vidrio)}
+.op__cabeza{display:grid;gap:var(--e2);margin-top:var(--e4);align-items:end}
+@media (min-width:820px){
+  .op__cabeza{grid-template-columns:auto 1fr;gap:var(--e4)}
+}
+.op__nota{
+  font-family:var(--display);font-stretch:112%;font-weight:600;
+  font-size:clamp(5.5rem,15vw,11rem);line-height:.78;letter-spacing:-.05em;
+  color:var(--ambar);font-variant-numeric:tabular-nums;
+}
+.op__meta{font-family:var(--dato);font-size:.8125rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--vidrio);padding-bottom:10px}
 .op__rejilla{display:grid;gap:var(--e3);margin-top:var(--e4);
   grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
 .op__cita{
@@ -264,6 +332,11 @@
 
 /* ---------- Contacto ---------- */
 .contacto__rejilla{display:grid;gap:var(--e4);margin-top:var(--e4)}
+@media (min-width:900px){
+  .contacto{margin-top:calc(var(--e5) * -1);position:relative;z-index:5}
+  .contacto > .env{background:var(--luz-alta);padding-block:var(--e5);
+    box-shadow:0 -3px 0 var(--anodizado)}
+}
 @media (min-width:960px){.contacto__rejilla{grid-template-columns:7fr 5fr;gap:var(--e5)}}
 .form{display:grid;gap:var(--e3)}
 .form__grupo{display:grid;gap:var(--e1)}
@@ -330,3 +403,16 @@
 .barra a[data-principal="si"]{background:var(--ambar);color:var(--junta)}
 body{padding-bottom:66px}
 @media (min-width:960px){body{padding-bottom:0}}
+
+/* ---------- Cabecera de sección ----------
+   Sin etiqueta encima: el titular a la izquierda y la entradilla
+   a la derecha, alineados por la misma línea base.               */
+.cabecera-seccion{display:grid;gap:var(--e2);align-items:end}
+@media (min-width:900px){
+  .cabecera-seccion{grid-template-columns:6fr 5fr;gap:var(--e5)}
+  .cabecera-seccion .lead{margin-bottom:6px}
+}
+.cabecera-seccion + *{margin-top:var(--e4)}
+
+/* Solo para capturas de página completa: 100svh con ventana de 4000px infla el hero */
+.captura .hero{min-height:0;height:820px}

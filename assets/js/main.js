@@ -9,12 +9,24 @@
   const quieto = captura || matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (captura) {
     document.querySelectorAll('img[loading="lazy"]').forEach(i => i.loading = 'eager');
+    // En captura de página completa la ventana es altísima y 100svh infla el hero
+    document.documentElement.classList.add('captura');
   }
   const $  = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
 
+  /* ---------- Secuencia de carga: se extruye el hueco ---------- */
+  requestAnimationFrame(() => document.body.classList.add('cargada'));
+
   /* ---------- Cabecera: se comprime al scrollear ---------- */
   const cab = $('#cabecera');
+  if (cab) {
+    // El hero ocupa exactamente lo que queda de pantalla bajo la cabecera
+    const medir = () => document.documentElement.style
+      .setProperty('--cab-h', cab.offsetHeight + 'px');
+    medir();
+    addEventListener('resize', medir, { passive: true });
+  }
   if (cab) {
     const centinela = document.createElement('div');
     centinela.style.cssText = 'position:absolute;top:120px;height:1px;width:1px';
@@ -43,7 +55,7 @@
      La imagen se desplaza dentro de su marco según dónde mires.
      Es lo que hace una ventana.                                */
   if (!quieto && matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    const huecos = $$('.hueco[data-mirada]');
+    const huecos = $$('[data-mirada]');
     let pendiente = false, cola = [];
 
     const pintar = () => {
