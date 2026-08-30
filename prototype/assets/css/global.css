@@ -1,0 +1,253 @@
+/* ============================================================
+   IZALUMINIO — "HUECO"
+   Lo oscuro es el perfil. Lo claro es el vidrio.
+   ============================================================ */
+
+/* ---------- Fuentes autoalojadas ---------- */
+@font-face{font-family:'Archivo';src:url('../fonts/archivo.woff2')format('woff2');
+  font-weight:100 900;font-stretch:62% 125%;font-display:swap;font-style:normal}
+@font-face{font-family:'Hanken Grotesk';src:url('../fonts/hanken-grotesk.woff2')format('woff2');
+  font-weight:100 900;font-display:swap;font-style:normal}
+@font-face{font-family:'Spline Sans Mono';src:url('../fonts/spline-sans-mono.woff2')format('woff2');
+  font-weight:300 700;font-display:swap;font-style:normal}
+
+/* ---------- Tokens ---------- */
+:root{
+  /* Paleta: sacada del material */
+  --vidrio:#2C3A3C;        /* canto de vidrio bajo emisivo — estructura */
+  --vidrio-alto:#38494B;   /* misma familia, un paso arriba */
+  --anodizado:#8A9296;     /* aluminio anodizado gris — montantes */
+  --anodizado-claro:#B9BFC0;
+  --junta:#161C1D;         /* negro del EPDM — texto */
+  --luz:#EDEFEC;           /* yeso frío — paneles */
+  --luz-alta:#F6F7F5;
+  --ambar:#E39B14;         /* señalética de taller — solo CTA */
+  --ambar-hover:#C9860A;
+  --sellado:#3E6B52;
+
+  /* Tipografía */
+  --display:'Archivo',system-ui,sans-serif;
+  --texto:'Hanken Grotesk',system-ui,sans-serif;
+  --dato:'Spline Sans Mono',ui-monospace,monospace;
+
+  /* Escala fluida */
+  --t-display:clamp(2.6rem,7vw,5.2rem);
+  --t-h1:clamp(2.1rem,4.4vw,3.4rem);
+  --t-h2:clamp(1.7rem,3vw,2.4rem);
+  --t-h3:1.3125rem;
+  --t-lead:clamp(1.0625rem,1.6vw,1.25rem);
+  --t-body:1.0625rem;
+  --t-small:.9375rem;
+  --t-dato:.75rem;
+
+  /* Espaciado base 8 */
+  --e1:8px;  --e2:16px; --e3:24px; --e4:40px;
+  --e5:64px; --e6:104px; --e7:168px;
+  --borde-pagina:clamp(20px,5vw,72px);
+  --ancho:1440px;
+
+  /* Movimiento */
+  --ease-hueco:cubic-bezier(.16,1,.30,1);
+  --rapida:180ms; --base:460ms; --lenta:700ms;
+}
+
+/* ---------- Reset ---------- */
+*,*::before,*::after{box-sizing:border-box}
+*{margin:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+html{overflow-x:hidden}
+body{
+  font-family:var(--texto);font-size:var(--t-body);line-height:1.65;
+  color:var(--junta);background:var(--luz);
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+img,picture,svg{display:block;max-width:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+ul{list-style:none;padding:0}
+a{color:inherit;text-decoration:none}
+
+/* ---------- Accesibilidad ---------- */
+:focus-visible{outline:2px solid var(--ambar);outline-offset:3px;border-radius:2px}
+.salta{
+  position:absolute;left:var(--borde-pagina);top:-100px;z-index:200;
+  background:var(--ambar);color:var(--junta);padding:var(--e2) var(--e3);
+  font-weight:600;transition:top var(--rapida) var(--ease-hueco);
+}
+.salta:focus{top:var(--e2)}
+.oculto-visual{
+  position:absolute;width:1px;height:1px;padding:0;overflow:hidden;
+  clip-path:inset(50%);white-space:nowrap;border:0;
+}
+
+/* ============================================================
+   FIRMA 1 — EL MONTANTE
+   En sección, un montante son dos caras y una junta de sombra.
+   Nunca un filete de 1px suelto.
+   ============================================================ */
+.montante{
+  height:3px;border:0;
+  background:linear-gradient(to bottom,var(--anodizado) 0 2px,var(--vidrio) 2px 3px);
+}
+.montante--fino{
+  height:2px;
+  background:linear-gradient(to bottom,var(--anodizado-claro) 0 1px,var(--anodizado) 1px 2px);
+}
+.montante--v{
+  width:3px;height:auto;align-self:stretch;
+  background:linear-gradient(to right,var(--anodizado) 0 2px,var(--vidrio) 2px 3px);
+}
+/* Sobre superficie oscura, el montante invierte sus caras */
+.sobre-vidrio .montante{
+  background:linear-gradient(to bottom,var(--vidrio-alto) 0 1px,var(--anodizado) 1px 3px);
+}
+
+/* ============================================================
+   FIRMA 2 — LA MIRADA A TRAVÉS
+   Toda foto vive detrás de un marco. Al mover el puntero,
+   la vista se desplaza dentro del hueco: es lo que hace una ventana.
+   ============================================================ */
+.hueco{
+  position:relative;overflow:hidden;background:var(--vidrio);
+  border-radius:2px;margin:0;
+  --mx:0; --my:0;
+}
+/* <picture> es inline por defecto: sin esto, la imagen no hereda la altura
+   del hueco y se ignora el aspect-ratio del marco. */
+.hueco picture{display:contents}
+.hueco__vista{
+  width:100%;height:100%;object-fit:cover;
+  transform:scale(1.07) translate3d(calc(var(--mx)*-9px),calc(var(--my)*-9px),0);
+  transition:transform var(--lenta) var(--ease-hueco);
+  will-change:transform;
+}
+.hueco:hover .hueco__vista,.hueco:focus-within .hueco__vista{
+  transition-duration:var(--rapida);
+}
+/* El marco: dos caras de perfil en el borde interior del hueco */
+.hueco::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(44,58,60,.55),inset 0 0 0 3px rgba(237,239,236,.14);
+}
+
+/* ---------- Chapa: panel claro sobre estructura ---------- */
+.chapa{background:var(--luz-alta);border-radius:2px}
+
+/* ---------- Contenedores ---------- */
+.env{
+  width:100%;max-width:var(--ancho);margin-inline:auto;
+  padding-inline:var(--borde-pagina);
+}
+.seccion{padding-block:var(--e5)}
+@media (min-width:900px){.seccion{padding-block:var(--e6)}}
+/* Dos secciones claras seguidas no necesitan el doble de aire entre ellas */
+.seccion + .seccion:not(.seccion--vidrio){padding-block-start:var(--e4)}
+@media (min-width:900px){
+  .seccion + .seccion:not(.seccion--vidrio){padding-block-start:var(--e5)}
+}
+.seccion--vidrio{background:var(--vidrio);color:var(--luz)}
+.seccion--vidrio .cota__texto{color:var(--anodizado-claro)}
+
+/* ---------- Índice de sección ---------- */
+.cota{
+  display:flex;align-items:center;gap:var(--e2);
+  margin-bottom:var(--e3);
+}
+.cota::before{
+  content:'';width:22px;height:2px;flex:none;
+  background:linear-gradient(to bottom,var(--ambar) 0 1px,var(--vidrio) 1px 2px);
+}
+.seccion--vidrio .cota::before{
+  background:linear-gradient(to bottom,var(--ambar) 0 1px,var(--vidrio-alto) 1px 2px);
+}
+.cota__num{
+  font-family:var(--dato);font-size:var(--t-dato);font-weight:600;
+  letter-spacing:.14em;color:var(--ambar);
+}
+.cota__texto{
+  font-family:var(--dato);font-size:var(--t-dato);font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--vidrio);
+}
+.cota__linea{flex:1;height:2px;background:var(--anodizado);transform-origin:left;
+  background:linear-gradient(to bottom,var(--anodizado-claro) 0 1px,var(--anodizado) 1px 2px)}
+
+/* ---------- Tipografía ---------- */
+.display{
+  font-family:var(--display);font-size:var(--t-display);
+  font-weight:600;font-stretch:118%;line-height:.98;letter-spacing:-.025em;
+}
+h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.02em;text-wrap:balance}
+h1{font-size:var(--t-h1);font-stretch:115%;line-height:1.06}
+h2{font-size:var(--t-h2);font-stretch:112%;line-height:1.14}
+h3{font-size:var(--t-h3);font-stretch:106%;line-height:1.25}
+.lead{font-size:var(--t-lead);line-height:1.55;max-width:56ch}
+p{max-width:68ch;text-wrap:pretty}
+.dato{
+  font-family:var(--dato);font-size:var(--t-dato);font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;font-variant-numeric:tabular-nums;
+}
+
+/* ---------- Botones ---------- */
+.btn{
+  --relleno:var(--ambar);
+  position:relative;display:inline-flex;align-items:center;gap:var(--e1);
+  padding:var(--e2) var(--e3);border:0;border-radius:2px;
+  font-family:var(--display);font-weight:600;font-stretch:108%;font-size:1rem;
+  letter-spacing:-.01em;cursor:pointer;overflow:hidden;
+  background:var(--vidrio);color:var(--luz);
+  transition:color var(--rapida) var(--ease-hueco);
+}
+.btn::before{
+  content:'';position:absolute;inset:0;background:var(--relleno);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform var(--base) var(--ease-hueco);
+}
+.btn > *{position:relative;z-index:1}
+.btn:hover,.btn:focus-visible{color:var(--junta)}
+.btn:hover::before,.btn:focus-visible::before{transform:scaleX(1)}
+.btn:active{transform:translateY(1px)}
+
+.btn--ambar{background:var(--ambar);color:var(--junta);--relleno:var(--ambar-hover)}
+.btn--ambar:hover,.btn--ambar:focus-visible{color:var(--luz)}
+
+.btn--linea{
+  background:transparent;color:currentColor;
+  box-shadow:inset 0 0 0 2px var(--anodizado);--relleno:var(--anodizado);
+}
+.btn--linea:hover,.btn--linea:focus-visible{color:var(--junta)}
+
+/* Enlace con montante que se extiende */
+.enlace{
+  display:inline-flex;align-items:center;gap:var(--e1);
+  font-family:var(--display);font-weight:600;font-stretch:106%;
+  padding-bottom:4px;position:relative;
+}
+.enlace::after{
+  content:'';position:absolute;left:0;right:0;bottom:0;height:2px;
+  background:linear-gradient(to bottom,var(--ambar) 0 1px,var(--vidrio) 1px 2px);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform var(--base) var(--ease-hueco);
+}
+.enlace:hover::after,.enlace:focus-visible::after{transform:scaleX(1)}
+.enlace svg{transition:transform var(--base) var(--ease-hueco)}
+.enlace:hover svg{transform:translateX(4px)}
+
+/* ---------- Entrada al viewport ---------- */
+.js .entra{opacity:0;transform:translateY(14px);
+  transition:opacity var(--base) var(--ease-hueco),transform var(--base) var(--ease-hueco)}
+.js .entra.visible{opacity:1;transform:none}
+.entra[data-retardo="1"]{transition-delay:60ms}
+.entra[data-retardo="2"]{transition-delay:120ms}
+.entra[data-retardo="3"]{transition-delay:180ms}
+.entra[data-retardo="4"]{transition-delay:240ms}
+.entra[data-retardo="5"]{transition-delay:300ms}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;scroll-behavior:auto!important;
+  }
+  .js .entra{opacity:1;transform:none}
+  .hueco__vista{transform:scale(1.02)}
+}
