@@ -100,7 +100,7 @@
     const N = fotos.length, INTERVALO = 7000;
     let i = 0, animando = false, timer = null;
     let autoplay = puntero && !quieto;   // en táctil no hay pase automático
-    let pausado = false, dentro = false, visible = true, vueltas = 0;
+    let pausado = false, dentro = false, visible = true;
 
     const pintarProgreso = () => {
       tramos.forEach((t, k) => {
@@ -149,20 +149,19 @@
     const tic = () => {
       timer = null;
       if (!autoplay || pausado || dentro || !visible || document.hidden) return;
-      if (i === N - 1) { vueltas++; if (vueltas >= 1) { detener(); return; } }
       ir(i + 1, 1);
       programar();
     };
     const programar = () => { clearTimeout(timer); timer = setTimeout(tic, INTERVALO); };
     const detener = () => { autoplay = false; clearTimeout(timer); timer = null; pintarPausa(); pintarProgreso(); };
-    const reanudar = () => { autoplay = true; pausado = false; vueltas = 0; pintarPausa(); pintarProgreso(); programar(); };
+    const reanudar = () => { autoplay = true; pausado = false; pintarPausa(); pintarProgreso(); programar(); };
     const pintarPausa = () => {
       if (!pausaBtn) return;
       const parado = !autoplay || pausado;
       pausaBtn.setAttribute('aria-pressed', String(parado));
       pausaBtn.setAttribute('aria-label', parado ? 'Reanudar el pase automático' : 'Pausar el pase automático');
     };
-    const interaccion = () => { if (autoplay) detener(); };
+    const interaccion = () => { if (autoplay && !pausado) programar(); };   // reinicia la cuenta; el pase sigue
 
     $$('.hero__flecha', hero).forEach(b => b.addEventListener('click', () => { interaccion(); ir(i + Number(b.dataset.dir), Number(b.dataset.dir)); }));
     tramos.forEach(t => t.addEventListener('click', () => { interaccion(); ir(Number(t.dataset.i)); }));
@@ -272,6 +271,30 @@
       if (barra) barra.classList.toggle('is-visible', fuera);
     }, { threshold: 0.05 }).observe(hero);
   } else { if (flotante) flotante.classList.add('is-visible'); if (barra) barra.classList.add('is-visible'); }
+
+
+  /* ---------- GALERÍA: flechas y arrastre con el ratón sobre scroll nativo ---------- */
+  const pista = $('#galeria-pista');
+  if (pista) {
+    const paso = () => Math.min(pista.clientWidth * 0.8, 640);
+    $$('.galeria__flecha').forEach(b => b.addEventListener('click', () => pista.scrollBy({ left: Number(b.dataset.dir) * paso(), behavior: quieto ? 'auto' : 'smooth' })));
+    pista.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); pista.scrollBy({ left: paso(), behavior: 'smooth' }); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); pista.scrollBy({ left: -paso(), behavior: 'smooth' }); }
+    });
+    if (puntero) {
+      let arrastre = null;
+      pista.addEventListener('pointerdown', e => { arrastre = { x: e.clientX, s: pista.scrollLeft, movido: false }; });
+      pista.addEventListener('pointermove', e => {
+        if (!arrastre) return;
+        const dx = e.clientX - arrastre.x;
+        if (Math.abs(dx) > 4) { arrastre.movido = true; pista.classList.add('is-arrastrando'); pista.scrollLeft = arrastre.s - dx; }
+      });
+      const soltar = () => { if (!arrastre) return; arrastre = null; setTimeout(() => pista.classList.remove('is-arrastrando'), 50); };
+      pista.addEventListener('pointerup', soltar); pista.addEventListener('pointerleave', soltar); pista.addEventListener('pointercancel', soltar);
+      pista.addEventListener('dragstart', e => e.preventDefault());
+    }
+  }
 
   /* ---------- Mapa: su iframe de Google, al pulsar ---------- */
   const mapa = $('#pie-mapa'), cargarMapa = $('#pie-mapa-cargar');

@@ -138,21 +138,17 @@
       <!-- Reseñas de Google (mejora aprobada): valoración agregada real, sin citas inventadas -->
       <a class="hero__resena" href="https://maps.app.goo.gl/TeWKtJiY1932ptRE6" target="_blank" rel="noopener">
         <span class="hero__estrellas" aria-hidden="true"><svg width="16" height="16"><use href="#i-estrella"/></svg><svg width="16" height="16"><use href="#i-estrella"/></svg><svg width="16" height="16"><use href="#i-estrella"/></svg><svg width="16" height="16"><use href="#i-estrella"/></svg><svg width="16" height="16"><use href="#i-estrella"/></svg></span>
-        <span><b>4,8</b> en Google · Más de 140 opiniones</span>
+        <span><b>4,8</b> en Google · Más de 380 opiniones</span>
         <span class="hero__ver">Ver opiniones <svg width="16" height="16" aria-hidden="true"><use href="#i-der"/></svg></span>
       </a>
 
       <div class="hero__nav">
-        <button class="hero__flecha" type="button" data-dir="-1" aria-label="Diapositiva anterior"><svg width="22" height="22"><use href="#i-izq"/></svg></button>
         <div class="hero__progreso" role="group" aria-label="Elegir diapositiva">
           <button class="hero__tramo" type="button" data-i="0" aria-current="true" aria-label="Diapositiva 1: Izaluminio, expertos en carpintería de aluminio y PVC"><span class="hero__relleno"></span></button>
           <button class="hero__tramo" type="button" data-i="1" aria-label="Diapositiva 2: Servicios de carpintería en aluminio y PVC"><span class="hero__relleno"></span></button>
           <button class="hero__tramo" type="button" data-i="2" aria-label="Diapositiva 3: Reparaciones de ventanas y puertas"><span class="hero__relleno"></span></button>
           <button class="hero__tramo" type="button" data-i="3" aria-label="Diapositiva 4: Instalaciones de ventanas y cerramientos"><span class="hero__relleno"></span></button>
         </div>
-        <button class="hero__flecha" type="button" data-dir="1" aria-label="Diapositiva siguiente"><svg width="22" height="22"><use href="#i-der"/></svg></button>
-        <p class="hero__contador" aria-hidden="true"><b id="hero-actual">1</b><span>/ 4</span></p>
-        <button class="hero__pausa" type="button" id="hero-pausa" aria-pressed="false" aria-label="Pausar el pase automático"><svg class="hero__ico-pausa" width="18" height="18"><use href="#i-pausa"/></svg><svg class="hero__ico-play" width="18" height="18"><use href="#i-play"/></svg></button>
       </div>
     </div>
 
@@ -193,14 +189,36 @@
 <section class="servicios" id="servicios" aria-labelledby="titulo-servicios">
   <div class="banda">
     <div class="env banda__env">
-      <h2 class="banda__titulo mascara" id="titulo-servicios">Izaluminio, expertos en carpintería de aluminio y PVC en Arganda del Rey</h2>
-      <p class="banda__sub">Conoce nuestros servicios</p>
-      <nav class="banda__indice" aria-label="Ir a un servicio">
-        <a href="#servicio-1">Reparaciones de ventanas y puertas de aluminio y PVC</a>
-        <a href="#servicio-2">Instalación de mosquiteras</a>
-        <a href="#servicio-3">Instalación de vinilos</a>
-        <a href="#servicio-4">Carpintería de aluminio y PVC</a>
-        <a href="#servicio-5">Instalaciones de ventanas y cerramientos</a>
+      <div class="banda__cabecera">
+        <h2 class="banda__titulo mascara" id="titulo-servicios">Conoce nuestros servicios</h2>
+        <p class="banda__sub">Realizados por profesionales con gran experiencia</p>
+      </div>
+      <nav class="banda__rejilla" aria-label="Ir a un servicio">
+        <a class="banda__tile revela" style="--n:0" href="#servicio-1">
+          <span class="banda__icono" aria-hidden="true"><svg width="30" height="30"><use href="#s-reparacion"/></svg></span>
+          <span class="banda__nombre">Reparaciones de ventanas y puertas de aluminio y PVC</span>
+          <svg class="banda__flecha" width="20" height="20" aria-hidden="true"><use href="#i-der"/></svg>
+        </a>
+        <a class="banda__tile revela" style="--n:1" href="#servicio-2">
+          <span class="banda__icono" aria-hidden="true"><svg width="30" height="30"><use href="#s-mosquitera"/></svg></span>
+          <span class="banda__nombre">Instalación de mosquiteras</span>
+          <svg class="banda__flecha" width="20" height="20" aria-hidden="true"><use href="#i-der"/></svg>
+        </a>
+        <a class="banda__tile revela" style="--n:2" href="#servicio-3">
+          <span class="banda__icono" aria-hidden="true"><svg width="30" height="30"><use href="#s-vinilo"/></svg></span>
+          <span class="banda__nombre">Instalación de vinilos</span>
+          <svg class="banda__flecha" width="20" height="20" aria-hidden="true"><use href="#i-der"/></svg>
+        </a>
+        <a class="banda__tile revela" style="--n:3" href="#servicio-4">
+          <span class="banda__icono" aria-hidden="true"><svg width="30" height="30"><use href="#s-carpinteria"/></svg></span>
+          <span class="banda__nombre">Carpintería de aluminio y PVC</span>
+          <svg class="banda__flecha" width="20" height="20" aria-hidden="true"><use href="#i-der"/></svg>
+        </a>
+        <a class="banda__tile revela" style="--n:4" href="#servicio-5">
+          <span class="banda__icono" aria-hidden="true"><svg width="30" height="30"><use href="#s-cerramiento"/></svg></span>
+          <span class="banda__nombre">Instalaciones de ventanas y cerramientos</span>
+          <svg class="banda__flecha" width="20" height="20" aria-hidden="true"><use href="#i-der"/></svg>
+        </a>
       </nav>
     </div>
   </div>
@@ -331,18 +349,111 @@
   </div>
 </section>
 
+
+<!-- ============================ GALERÍA (bloque nuevo, aprobado por Juan): sus trabajos reales ============================ -->
+<section class="galeria" id="galeria" aria-labelledby="titulo-galeria">
+  <div class="env galeria__cabecera">
+    <h2 class="galeria__titulo mascara" id="titulo-galeria">Galería</h2>
+    <div class="galeria__acciones">
+      <a class="galeria__todo" href="https://izaluminio.com/galeria/" target="_blank" rel="noopener">Ver toda la galería <svg width="18" height="18" aria-hidden="true"><use href="#i-der"/></svg></a>
+      <button class="galeria__flecha" type="button" data-dir="-1" aria-label="Fotos anteriores"><svg width="20" height="20"><use href="#i-izq"/></svg></button>
+      <button class="galeria__flecha" type="button" data-dir="1" aria-label="Fotos siguientes"><svg width="20" height="20"><use href="#i-der"/></svg></button>
+    </div>
+  </div>
+  <div class="galeria__pista" id="galeria-pista" tabindex="0" aria-label="Fotos de trabajos realizados; desplázate en horizontal">
+    <figure class="galeria__item galeria__item--alta revela" style="--n:0">
+      <picture>
+        <source type="image/avif" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/obra-correderas-antracita-480.avif 480w, assets/img/obra-correderas-antracita-768.avif 768w, assets/img/obra-correderas-antracita-1200.avif 1200w">
+        <img src="assets/img/obra-correderas-antracita-768.webp" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/obra-correderas-antracita-480.webp 480w, assets/img/obra-correderas-antracita-768.webp 768w, assets/img/obra-correderas-antracita-1200.webp 1200w" width="1072" height="1340" loading="lazy" decoding="async" alt="Correderas de aluminio, acabado antracita">
+      </picture>
+      <figcaption>Correderas de aluminio, acabado antracita</figcaption>
+    </figure>
+    <figure class="galeria__item galeria__item--ancha revela" style="--n:1">
+      <picture>
+        <source type="image/avif" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/vinilo-camion-mercedes-480.avif 480w, assets/img/vinilo-camion-mercedes-768.avif 768w, assets/img/vinilo-camion-mercedes-1200.avif 1200w">
+        <img src="assets/img/vinilo-camion-mercedes-768.webp" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/vinilo-camion-mercedes-480.webp 480w, assets/img/vinilo-camion-mercedes-768.webp 768w, assets/img/vinilo-camion-mercedes-1200.webp 1200w" width="2048" height="1365" loading="lazy" decoding="async" alt="Vinilo de gran formato en un concesionario">
+      </picture>
+      <figcaption>Vinilo de gran formato en un concesionario</figcaption>
+    </figure>
+    <figure class="galeria__item galeria__item--ancha revela" style="--n:2">
+      <picture>
+        <source type="image/avif" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/obra-mamparas-oficina-480.avif 480w, assets/img/obra-mamparas-oficina-768.avif 768w, assets/img/obra-mamparas-oficina-1200.avif 1200w">
+        <img src="assets/img/obra-mamparas-oficina-768.webp" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/obra-mamparas-oficina-480.webp 480w, assets/img/obra-mamparas-oficina-768.webp 768w, assets/img/obra-mamparas-oficina-1200.webp 1200w" width="1600" height="800" loading="lazy" decoding="async" alt="Mamparas de cristal con vinilo de privacidad">
+      </picture>
+      <figcaption>Mamparas de cristal con vinilo de privacidad</figcaption>
+    </figure>
+    <figure class="galeria__item galeria__item--alta revela" style="--n:3">
+      <picture>
+        <source type="image/avif" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/detalle-manilla-lamas-480.avif 480w, assets/img/detalle-manilla-lamas-768.avif 768w, assets/img/detalle-manilla-lamas-1200.avif 1200w">
+        <img src="assets/img/detalle-manilla-lamas-768.webp" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/detalle-manilla-lamas-480.webp 480w, assets/img/detalle-manilla-lamas-768.webp 768w, assets/img/detalle-manilla-lamas-1200.webp 1200w" width="1197" height="1496" loading="lazy" decoding="async" alt="Manilla y persiana de lamas">
+      </picture>
+      <figcaption>Manilla y persiana de lamas</figcaption>
+    </figure>
+    <figure class="galeria__item galeria__item--ancha revela" style="--n:0">
+      <picture>
+        <source type="image/avif" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/vinilo-paisaje-sala-480.avif 480w, assets/img/vinilo-paisaje-sala-768.avif 768w, assets/img/vinilo-paisaje-sala-1200.avif 1200w">
+        <img src="assets/img/vinilo-paisaje-sala-768.webp" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/vinilo-paisaje-sala-480.webp 480w, assets/img/vinilo-paisaje-sala-768.webp 768w, assets/img/vinilo-paisaje-sala-1200.webp 1200w" width="2048" height="1365" loading="lazy" decoding="async" alt="Mural de paisaje en una sala de espera">
+      </picture>
+      <figcaption>Mural de paisaje en una sala de espera</figcaption>
+    </figure>
+    <figure class="galeria__item galeria__item--alta revela" style="--n:1">
+      <picture>
+        <source type="image/avif" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/obra-puerta-mosquitera-480.avif 480w, assets/img/obra-puerta-mosquitera-768.avif 768w, assets/img/obra-puerta-mosquitera-1200.avif 1200w">
+        <img src="assets/img/obra-puerta-mosquitera-768.webp" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/obra-puerta-mosquitera-480.webp 480w, assets/img/obra-puerta-mosquitera-768.webp 768w, assets/img/obra-puerta-mosquitera-1200.webp 1200w" width="1080" height="1350" loading="lazy" decoding="async" alt="Puerta con mosquitera">
+      </picture>
+      <figcaption>Puerta con mosquitera</figcaption>
+    </figure>
+    <figure class="galeria__item galeria__item--alta revela" style="--n:2">
+      <picture>
+        <source type="image/avif" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/detalle-bisagra-480.avif 480w, assets/img/detalle-bisagra-768.avif 768w, assets/img/detalle-bisagra-1200.avif 1200w">
+        <img src="assets/img/detalle-bisagra-768.webp" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/detalle-bisagra-480.webp 480w, assets/img/detalle-bisagra-768.webp 768w, assets/img/detalle-bisagra-1200.webp 1200w" width="1500" height="1875" loading="lazy" decoding="async" alt="Bisagra de puerta de aluminio">
+      </picture>
+      <figcaption>Bisagra de puerta de aluminio</figcaption>
+    </figure>
+    <figure class="galeria__item galeria__item--alta revela" style="--n:3">
+      <picture>
+        <source type="image/avif" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/vinilo-deportista-480.avif 480w, assets/img/vinilo-deportista-768.avif 768w, assets/img/vinilo-deportista-1200.avif 1200w">
+        <img src="assets/img/vinilo-deportista-768.webp" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/vinilo-deportista-480.webp 480w, assets/img/vinilo-deportista-768.webp 768w, assets/img/vinilo-deportista-1200.webp 1200w" width="1536" height="1920" loading="lazy" decoding="async" alt="Vinilo mural en un centro deportivo">
+      </picture>
+      <figcaption>Vinilo mural en un centro deportivo</figcaption>
+    </figure>
+    <figure class="galeria__item galeria__item--ancha revela" style="--n:0">
+      <picture>
+        <source type="image/avif" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/obra-ventana-persianas-480.avif 480w, assets/img/obra-ventana-persianas-768.avif 768w, assets/img/obra-ventana-persianas-1200.avif 1200w">
+        <img src="assets/img/obra-ventana-persianas-768.webp" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/obra-ventana-persianas-480.webp 480w, assets/img/obra-ventana-persianas-768.webp 768w, assets/img/obra-ventana-persianas-1200.webp 1200w" width="1600" height="1067" loading="lazy" decoding="async" alt="Ventana corredera de PVC con persiana">
+      </picture>
+      <figcaption>Ventana corredera de PVC con persiana</figcaption>
+    </figure>
+    <figure class="galeria__item galeria__item--alta revela" style="--n:1">
+      <picture>
+        <source type="image/avif" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/detalle-cierre-persiana-480.avif 480w, assets/img/detalle-cierre-persiana-768.avif 768w, assets/img/detalle-cierre-persiana-1200.avif 1200w">
+        <img src="assets/img/detalle-cierre-persiana-768.webp" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/detalle-cierre-persiana-480.webp 480w, assets/img/detalle-cierre-persiana-768.webp 768w, assets/img/detalle-cierre-persiana-1200.webp 1200w" width="1500" height="1875" loading="lazy" decoding="async" alt="Cierre de ventana junto a la persiana">
+      </picture>
+      <figcaption>Cierre de ventana junto a la persiana</figcaption>
+    </figure>
+    <figure class="galeria__item galeria__item--ancha revela" style="--n:2">
+      <picture>
+        <source type="image/avif" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/vinilo-cabina-mercedes-480.avif 480w, assets/img/vinilo-cabina-mercedes-768.avif 768w, assets/img/vinilo-cabina-mercedes-1200.avif 1200w">
+        <img src="assets/img/vinilo-cabina-mercedes-768.webp" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/vinilo-cabina-mercedes-480.webp 480w, assets/img/vinilo-cabina-mercedes-768.webp 768w, assets/img/vinilo-cabina-mercedes-1200.webp 1200w" width="2048" height="1365" loading="lazy" decoding="async" alt="Vinilo con el interior de una cabina de camión">
+      </picture>
+      <figcaption>Vinilo con el interior de una cabina de camión</figcaption>
+    </figure>
+    <figure class="galeria__item galeria__item--alta revela" style="--n:3">
+      <picture>
+        <source type="image/avif" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/detalle-manilla-negra-480.avif 480w, assets/img/detalle-manilla-negra-768.avif 768w, assets/img/detalle-manilla-negra-1200.avif 1200w">
+        <img src="assets/img/detalle-manilla-negra-768.webp" sizes="(min-width:900px) 30vw, 78vw" srcset="assets/img/detalle-manilla-negra-480.webp 480w, assets/img/detalle-manilla-negra-768.webp 768w, assets/img/detalle-manilla-negra-1200.webp 1200w" width="1056" height="1320" loading="lazy" decoding="async" alt="Manilla negra sobre perfil blanco">
+      </picture>
+      <figcaption>Manilla negra sobre perfil blanco</figcaption>
+    </figure>
+  </div>
+</section>
+
 <hr class="banda-fina">
 
 <!-- ============================ PIDE TU PRESUPUESTO (con formulario corto: mejora aprobada) ============================ -->
 <section class="presupuesto" id="presupuesto" aria-labelledby="titulo-presupuesto">
   <div class="env">
     <div class="panel">
-      <figure class="panel__foto">
-        <picture>
-          <source type="image/avif" sizes="(min-width:1024px) 38vw, 100vw" srcset="assets/img/vinilo-paisaje-sala-480.avif 480w, assets/img/vinilo-paisaje-sala-768.avif 768w, assets/img/vinilo-paisaje-sala-1200.avif 1200w">
-          <img src="assets/img/vinilo-paisaje-sala-768.webp" sizes="(min-width:1024px) 38vw, 100vw" srcset="assets/img/vinilo-paisaje-sala-480.webp 480w, assets/img/vinilo-paisaje-sala-768.webp 768w, assets/img/vinilo-paisaje-sala-1200.webp 1200w" width="2048" height="1365" loading="lazy" decoding="async" alt="Mural de vinilo con un paisaje de montaña en la sala de espera de una oficina">
-        </picture>
-      </figure>
       <div class="panel__texto">
         <h2 id="titulo-presupuesto" class="mascara">Pide tu presupuesto sin compromiso</h2>
         <p>Contacta con nosotros visitando nuestra página de contacto. Llámanos o rellena el formulario de contacto y solicita información sobre nuestro servicio de carpintería de aluminio y PVC en Arganda del Rey</p>
