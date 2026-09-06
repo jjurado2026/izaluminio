@@ -95,8 +95,6 @@
     const tramos   = $$('.hero__tramo', hero);
     const progreso = $('.hero__progreso', hero);
     const cortina  = $('.hero__cortina', hero);
-    const actualEl = $('#hero-actual');
-    const pausaBtn = $('#hero-pausa');
     const N = fotos.length, INTERVALO = 7000;
     let i = 0, animando = false, timer = null;
     let autoplay = puntero && !quieto;   // en táctil no hay pase automático
@@ -117,7 +115,6 @@
         c.classList.toggle('is-activa', k === n);
         c.setAttribute('aria-hidden', String(k !== n));
       });
-      if (actualEl) actualEl.textContent = String(n + 1);
       i = n;
       pintarProgreso();
     };
@@ -144,8 +141,8 @@
       }));
     };
 
-    /* Pase automático: 7 s, se para al interactuar, al salir de pantalla,
-       al cambiar de pestaña y tras una vuelta completa. */
+    /* Pase automático continuo de 7 s: en pausa con el cursor o el foco dentro,
+       fuera de pantalla o con la pestaña oculta. Sin controles, como pidió Juan. */
     const tic = () => {
       timer = null;
       if (!autoplay || pausado || dentro || !visible || document.hidden) return;
@@ -153,14 +150,7 @@
       programar();
     };
     const programar = () => { clearTimeout(timer); timer = setTimeout(tic, INTERVALO); };
-    const detener = () => { autoplay = false; clearTimeout(timer); timer = null; pintarPausa(); pintarProgreso(); };
-    const reanudar = () => { autoplay = true; pausado = false; pintarPausa(); pintarProgreso(); programar(); };
-    const pintarPausa = () => {
-      if (!pausaBtn) return;
-      const parado = !autoplay || pausado;
-      pausaBtn.setAttribute('aria-pressed', String(parado));
-      pausaBtn.setAttribute('aria-label', parado ? 'Reanudar el pase automático' : 'Pausar el pase automático');
-    };
+    const detener = () => { autoplay = false; clearTimeout(timer); timer = null; pintarProgreso(); };
     const interaccion = () => { if (autoplay && !pausado) programar(); };   // reinicia la cuenta; el pase sigue
 
     $$('.hero__flecha', hero).forEach(b => b.addEventListener('click', () => { interaccion(); ir(i + Number(b.dataset.dir), Number(b.dataset.dir)); }));
@@ -170,7 +160,6 @@
       if (e.key === 'ArrowRight') { interaccion(); ir(i + 1, 1); }
       if (e.key === 'ArrowLeft')  { interaccion(); ir(i - 1, -1); }
     });
-    if (pausaBtn) pausaBtn.addEventListener('click', () => { if (!autoplay || pausado) reanudar(); else { pausado = true; clearTimeout(timer); pintarPausa(); pintarProgreso(); } });
 
     // Deslizar con el dedo sobre la foto
     let x0 = null;
@@ -195,7 +184,6 @@
       }, { threshold: 0.3 }).observe(escenario);
     }
 
-    pintarPausa();
     pintarProgreso();
     if (autoplay) setTimeout(programar, 1300);   // arranca cuando la orquestación de carga ha terminado
 
