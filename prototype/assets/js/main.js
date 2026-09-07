@@ -15,7 +15,7 @@
   const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const quieto   = captura || reducido;
   const puntero  = matchMedia('(hover: hover) and (pointer: fine)').matches;
-  const mqPila   = matchMedia('(min-width: 1024px) and (min-height: 760px)');
+  const mqPila   = matchMedia('(min-width: 1024px) and (min-height: 640px)');   // mismo umbral que el CSS; 760 dejaba fuera a muchos portátiles Windows
   if (captura) {
     document.documentElement.classList.add('captura');
     $$('img[loading="lazy"]').forEach(i => (i.loading = 'eager'));
@@ -95,9 +95,10 @@
     const tramos   = $$('.hero__tramo', hero);
     const progreso = $('.hero__progreso', hero);
     const cortina  = $('.hero__cortina', hero);
-    const N = fotos.length, INTERVALO = 7000;
+    const nav      = $('.hero__nav', hero);
+    const N = fotos.length, INTERVALO = 5000;
     let i = 0, animando = false, timer = null;
-    let autoplay = puntero && !quieto;   // en táctil no hay pase automático
+    let autoplay = !captura;   // pase automático en todos los dispositivos; con ratón, cortina; en táctil o con movimiento reducido, fundido
     let pausado = false, dentro = false, visible = true;
 
     const pintarProgreso = () => {
@@ -141,8 +142,9 @@
       }));
     };
 
-    /* Pase automático continuo de 7 s: en pausa con el cursor o el foco dentro,
-       fuera de pantalla o con la pestaña oculta. Sin controles, como pidió Juan. */
+    /* Pase automático continuo de 5 s. Solo se pausa con el cursor o el foco
+       sobre los controles, fuera de pantalla o con la pestaña oculta: el resto
+       del hero ocupa toda la pantalla y pausar ahí lo dejaba parado. */
     const tic = () => {
       timer = null;
       if (!autoplay || pausado || dentro || !visible || document.hidden) return;
@@ -171,11 +173,13 @@
     });
     escenario.addEventListener('pointercancel', () => { x0 = null; });
 
-    // Pausas: cursor o foco dentro, fuera de pantalla, pestaña oculta
-    hero.addEventListener('pointerenter', () => { dentro = true; pintarProgreso(); });
-    hero.addEventListener('pointerleave', () => { dentro = false; pintarProgreso(); if (autoplay && !pausado) programar(); });
-    hero.addEventListener('focusin',  () => { dentro = true; pintarProgreso(); });
-    hero.addEventListener('focusout', e => { if (!hero.contains(e.relatedTarget)) { dentro = false; pintarProgreso(); if (autoplay && !pausado) programar(); } });
+    // Pausas: cursor o foco sobre los controles, fuera de pantalla, pestaña oculta
+    if (nav) {
+      nav.addEventListener('pointerenter', () => { dentro = true; pintarProgreso(); });
+      nav.addEventListener('pointerleave', () => { dentro = false; pintarProgreso(); if (autoplay && !pausado) programar(); });
+      nav.addEventListener('focusin',  () => { dentro = true; pintarProgreso(); });
+      nav.addEventListener('focusout', e => { if (!nav.contains(e.relatedTarget)) { dentro = false; pintarProgreso(); if (autoplay && !pausado) programar(); } });
+    }
     document.addEventListener('visibilitychange', () => { pintarProgreso(); if (!document.hidden && autoplay && !pausado) programar(); });
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(([en]) => {
